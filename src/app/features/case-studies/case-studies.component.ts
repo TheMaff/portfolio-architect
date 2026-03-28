@@ -33,7 +33,7 @@ import { Component } from '@angular/core';
             <p class="text-slate-400 mb-6 leading-relaxed">
               Gestión y optimización de tiendas a gran escala. Experiencia comprobada orquestando manifiestos con más de 60 dependencias críticas (como integraciones Mudi, cotizadores y motores de precios) asegurando cero downtime y LCP óptimo.
             </p>
-            <ul class="space-y-2 text-sm text-slate-500 font-mono">
+            <ul class="space-y-2 text-sm text-slate-400 font-mono">
               <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> React & TypeScript estricto</li>
               <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> Estabilización de dependencias beta</li>
               <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> Workspaces CI/CD</li>
@@ -54,7 +54,7 @@ import { Component } from '@angular/core';
             <p class="text-slate-400 mb-6 leading-relaxed">
               Desarrollo de temas modulares y escalables (Child Themes) evitando la sobrescritura destructiva. Integración fluida de ecosistemas Headless mediante APIs REST/GraphQL para servir contenido dinámico y ultra-rápido.
             </p>
-            <ul class="space-y-2 text-sm text-slate-500 font-mono">
+            <ul class="space-y-2 text-sm text-slate-400 font-mono">
               <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span> CLI Automation & HubL</li>
               <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span> Arquitectura BEM / Tailwind</li>
               <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span> Headless Content Delivery</li>
