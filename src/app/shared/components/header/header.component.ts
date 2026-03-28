@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
     <header class="fixed top-0 w-full z-50 bg-brand-dark/80 backdrop-blur-md border-b border-slate-800/50">
       <div class="max-w-6xl mx-auto px-8 h-20 flex items-center justify-between">
         <div class="font-bold text-xl tracking-tighter text-white">
-          Marcos Flores - <span class="text-brand-accent">The Maff</span><span class="text-slate-500 font-mono text-sm ml-2">.dev</span>
+          Marcos Flores - <span class="text-brand-accent">The Maff</span><span class="text-slate-400 font-mono text-sm ml-2">.dev</span>
         </div>
         <nav class="hidden md:flex gap-8 text-sm font-medium text-slate-300">
           <a href="#expertise" class="hover:text-brand-accent transition-colors">Expertise</a>
