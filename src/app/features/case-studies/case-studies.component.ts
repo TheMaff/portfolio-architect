@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-case-studies',
   standalone: true,
   template: `
-    <section class="py-24 bg-brand-dark text-slate-300 relative overflow-hidden">
+    <section id="expertise" class="py-24 bg-brand-dark text-slate-300 relative overflow-hidden">
       <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-brand-accent/5 blur-[120px] rounded-full pointer-events-none"></div>
 
       <div class="max-w-6xl mx-auto px-8 relative z-10">
