@@ -5,11 +5,19 @@ import { DevScoreComponent } from './shared/components/dev-score/dev-score.compo
 import { CaseStudiesComponent } from './features/case-studies/case-studies.component';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { ContactComponent } from './features/contact/contact.component';
+import { ProjectsComponent } from './features/projects/projects.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, HeroComponent, DevScoreComponent, CaseStudiesComponent, ContactComponent],
+  imports: [
+    RouterOutlet,
+    HeaderComponent,
+    HeroComponent,
+    DevScoreComponent,
+    CaseStudiesComponent,
+    ProjectsComponent,
+    ContactComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
