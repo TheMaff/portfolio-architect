@@ -6,6 +6,7 @@ import { CaseStudiesComponent } from './features/case-studies/case-studies.compo
 import { HeaderComponent } from './shared/components/header/header.component';
 import { ContactComponent } from './features/contact/contact.component';
 import { ProjectsComponent } from './features/projects/projects.component';
+import { ExperienceComponent } from './features/experience/experience.component';
 
 @Component({
   selector: 'app-root',
@@ -15,6 +16,7 @@ import { ProjectsComponent } from './features/projects/projects.component';
     HeaderComponent,
     HeroComponent,
     DevScoreComponent,
+    ExperienceComponent,
     CaseStudiesComponent,
     ProjectsComponent,
     ContactComponent],
