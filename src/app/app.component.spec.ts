@@ -30,6 +30,7 @@ describe('App routing', () => {
     const page = fixture.nativeElement as HTMLElement;
     expect(page.querySelector('h1')?.textContent).toContain('Menos tareas manuales.');
     expect(page.querySelector('a[href="/demos/seguimiento-comercial"]')).toBeTruthy();
+    expect(page.querySelector('a[href="/demos/dashboard-comercial"]')).toBeTruthy();
     expect(page.querySelector('form[name="b2b-contact"]')).toBeTruthy();
   });
 
@@ -63,5 +64,22 @@ describe('App routing', () => {
     fixture.detectChanges();
     expect(router.url).toBe('/demos/seguimiento-comercial#contenido');
     expect(fixture.nativeElement.querySelector('app-commercial-capture')).toBeTruthy();
+  });
+
+  it('opens the dashboard directly and links to the capture demo without mounting the contact form', async () => {
+    await navigate('/demos/dashboard-comercial');
+    const page = fixture.nativeElement as HTMLElement;
+    expect(page.querySelector('app-commercial-dashboard')).toBeTruthy();
+    expect(page.querySelector('app-home-page')).toBeNull();
+    expect(page.querySelector('form[name="b2b-contact"]')).toBeNull();
+    expect(page.querySelectorAll('main').length).toBe(1);
+    const captureLink = page.querySelector('a[href="/demos/seguimiento-comercial"]') as HTMLAnchorElement;
+    expect(captureLink).toBeTruthy();
+    captureLink.click();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(router.url).toBe('/demos/seguimiento-comercial');
+    expect(page.querySelector('app-commercial-capture')).toBeTruthy();
+    expect(page.querySelector('app-commercial-dashboard')).toBeNull();
   });
 });

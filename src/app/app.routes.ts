@@ -12,5 +12,10 @@ export const routes: Routes = [
     title: 'Demo de captación y seguimiento comercial | The Maff',
     loadComponent: () => import('./features/demos/commercial-capture/commercial-capture.component').then(m => m.CommercialCaptureComponent)
   },
+  {
+    path: 'demos/dashboard-comercial',
+    title: 'Demo de dashboard comercial | The Maff',
+    loadComponent: () => import('./features/demos/commercial-dashboard/commercial-dashboard.component').then(m => m.CommercialDashboardComponent)
+  },
   { path: '**', redirectTo: '' }
 ];
