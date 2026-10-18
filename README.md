@@ -13,7 +13,7 @@ npm run build
 npm test -- --watch=false --browsers=ChromeHeadless
 ```
 
-La compilación publica archivos estáticos en `dist/me-pro-portfolio/browser`. La configuración está en `netlify.toml`. La actualización de Angular y las rutas de demos corresponden a una etapa posterior.
+La compilación publica archivos estáticos en `dist/me-pro-portfolio/browser`. La configuración está en `netlify.toml`. La actualización de Angular corresponde a una etapa posterior. La portada y la demo se cargan en rutas independientes.
 
 ## Contacto y recepción de consultas
 
@@ -42,4 +42,21 @@ El componente anterior `DevScoreComponent` ya no se monta en la portada. La evid
 
 Trabaja mediante ramas y revisión previa. Conecta el repositorio al proyecto Netlify y verifica que la rama de producción sea la prevista. El comando y directorio de publicación están versionados; habilitar Forms y sus notificaciones se realiza en la configuración del proyecto.
 
-Esta primera etapa mantiene la página única y la estética original. Las demos se incorporarán en rutas propias en una etapa posterior.
+La portada conserva su estética original. La demo comercial tiene su propia ruta con carga diferida y acceso desde la portada y la navegación.
+
+## Demo de captación y seguimiento comercial
+
+Ruta: `/demos/seguimiento-comercial`. La sección `/#demos` y el botón de la portada permiten abrirla sin registro.
+
+La demo funciona con datos sintéticos en memoria. No usa Netlify Forms, no envía correos, no llama a APIs y no guarda información en el almacenamiento del navegador. Al recargar, salir y volver a entrar, o reiniciar, se recuperan los ejemplos iniciales.
+
+Recorrido para probar:
+
+1. Cargar el ejemplo nuevo y simular su captación. Comprobar que aparece en **Nuevo**, con responsable, próxima acción e historial.
+2. Cargar el ejemplo de duplicado y simular la consulta. El correo se compara sin espacios externos y sin distinguir mayúsculas: se añade la consulta al historial de la oportunidad existente, sin duplicar el contacto ni cambiar su etapa o responsable.
+3. Seleccionar una oportunidad y avanzar por **Nuevo → Contactado → Propuesta → Ganado**. Revisar la próxima acción y el historial en cada paso.
+4. Reiniciar y confirmar que se restablecen los ejemplos y el formulario.
+
+Las cifras del tablero son conteos de los datos ficticios, no resultados comerciales reales. El botón de contacto de la demo vuelve al formulario real de The Maff; no copia ni envía los datos de ejemplo.
+
+El shell compartido conserva cabecera, pie y enlace para saltar al contenido. Las anclas del menú llevan a la portada desde cualquier ruta. La regla Netlify limitada a `/demos/*` permite abrir o recargar la URL de la demo sin afectar `/contact-form.html`, los activos ni el POST del contacto real.

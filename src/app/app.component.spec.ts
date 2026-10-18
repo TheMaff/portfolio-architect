@@ -1,29 +1,67 @@
+import { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
+import { provideRouter, Router } from '@angular/router';
 import { AppComponent } from './app.component';
+import { routes } from './app.routes';
 
-describe('AppComponent', () => {
+describe('App routing', () => {
+  let fixture: ComponentFixture<AppComponent>;
+  let router: Router;
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AppComponent],
+      providers: [provideRouter(routes)]
     }).compileComponents();
-  });
-
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
-  });
-
-  it(`should have the 'me-pro-portfolio' title`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('me-pro-portfolio');
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
+    fixture = TestBed.createComponent(AppComponent);
+    router = TestBed.inject(Router);
     fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Menos tareas manuales.');
+  });
+
+  async function navigate(url: string): Promise<void> {
+    await router.navigateByUrl(url);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+  }
+
+  it('opens the home route with an entry point to the commercial demo', async () => {
+    await navigate('/');
+    const page = fixture.nativeElement as HTMLElement;
+    expect(page.querySelector('h1')?.textContent).toContain('Menos tareas manuales.');
+    expect(page.querySelector('a[href="/demos/seguimiento-comercial"]')).toBeTruthy();
+    expect(page.querySelector('form[name="b2b-contact"]')).toBeTruthy();
+  });
+
+  it('opens the demo directly without mounting the home page above it', async () => {
+    await navigate('/demos/seguimiento-comercial');
+    const page = fixture.nativeElement as HTMLElement;
+    expect(page.querySelector('app-commercial-capture')).toBeTruthy();
+    expect(page.querySelector('app-home-page')).toBeNull();
+    expect(page.querySelectorAll('header').length).toBe(1);
+    expect(page.querySelectorAll('main').length).toBe(1);
+    expect(page.querySelector('form[name="b2b-contact"]')).toBeNull();
+  });
+
+  it('returns from the demo to the real home contact section through the shared header', async () => {
+    await navigate('/demos/seguimiento-comercial');
+    const links = fixture.nativeElement.querySelectorAll('header a') as NodeListOf<HTMLAnchorElement>;
+    const contactLink = Array.from(links).find(link => link.textContent?.trim() === 'Hablemos');
+    expect(contactLink).toBeTruthy();
+    contactLink!.click();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(router.url).toBe('/#contacto');
+    expect(fixture.nativeElement.querySelector('form[name="b2b-contact"]')).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('app-commercial-capture')).toBeNull();
+  });
+
+  it('keeps the demo route when skipping to its main content', async () => {
+    await navigate('/demos/seguimiento-comercial');
+    (fixture.nativeElement.querySelector('.skip-link') as HTMLAnchorElement).click();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(router.url).toBe('/demos/seguimiento-comercial#contenido');
+    expect(fixture.nativeElement.querySelector('app-commercial-capture')).toBeTruthy();
   });
 });
