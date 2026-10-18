@@ -1,0 +1,90 @@
+<div class="bg-brand-dark text-slate-300 pt-32 pb-20 sm:pt-36">
+  <div class="max-w-7xl mx-auto px-6 sm:px-8 min-w-0">
+    <a routerLink="/" fragment="demos" class="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-white transition"><span aria-hidden="true">←</span> Volver a The Maff</a>
+
+    <section aria-labelledby="dashboard-title" class="mt-9 mb-10 max-w-4xl">
+      <p class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-950/50 border border-blue-800 text-blue-200 text-xs sm:text-sm font-medium mb-5"><span class="w-2 h-2 rounded-full bg-blue-400" aria-hidden="true"></span> Demo interactiva · Datos ficticios</p>
+      <h1 id="dashboard-title" class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-tight">Tu gestión comercial,<br class="hidden sm:block"> <span class="text-brand-accent">en una sola vista.</span></h1>
+      <p class="text-lg text-slate-400 leading-relaxed mt-5 max-w-3xl">Explora oportunidades, resultados y canales. Filtra el dashboard y abre una ficha para pasar de los números al próximo paso comercial.</p>
+      <p id="dashboard-notice" class="mt-5 text-sm text-slate-300 leading-relaxed border-l-2 border-blue-500 pl-4">Todos los datos son ficticios, de enero a junio de 2026, y los importes están en pesos chilenos (CLP). Esta demo funciona en tu navegador: no consulta un CRM, no envía datos y no guarda tus filtros al salir o recargar.</p>
+      <a routerLink="/demos/seguimiento-comercial" class="inline-flex items-center gap-2 mt-5 py-2 text-sm font-semibold text-blue-300 hover:text-white transition">Probar también la demo de captación <span aria-hidden="true">→</span></a>
+    </section>
+
+    <section aria-labelledby="filters-title" class="rounded-3xl bg-slate-900/60 border border-slate-700 p-5 sm:p-6 mb-6">
+      <div class="flex flex-wrap items-start justify-between gap-4 mb-5">
+        <div><h2 id="filters-title" class="text-xl font-semibold text-white">Explora el negocio</h2><p id="filters-help" class="mt-2 text-sm text-slate-400 max-w-3xl">El período usa la fecha de entrada de cada oportunidad. Todos los indicadores, gráficos y tablas muestran ese mismo grupo y su etapa actual en este ejemplo.</p></div>
+        <button type="button" (click)="reset()" class="shrink-0 inline-flex items-center gap-2 border border-slate-600 rounded-full px-4 py-2 text-sm font-medium text-slate-300 hover:text-white hover:border-slate-400 transition"><span aria-hidden="true">↺</span> Restablecer filtros</button>
+      </div>
+      <div class="grid sm:grid-cols-3 gap-4" aria-describedby="filters-help">
+        <div><label for="dashboard-period" class="block text-sm font-medium text-slate-200 mb-1.5">Período de entrada</label><select id="dashboard-period" [value]="filters().period" (change)="updateFilter('period', $event)" class="w-full rounded-xl border border-slate-600 bg-slate-950 text-white px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400">@for (option of periodOptions; track option.value) { <option [value]="option.value">{{ option.label }}</option> }</select></div>
+        <div><label for="dashboard-owner" class="block text-sm font-medium text-slate-200 mb-1.5">Responsable</label><select id="dashboard-owner" [value]="filters().owner" (change)="updateFilter('owner', $event)" class="w-full rounded-xl border border-slate-600 bg-slate-950 text-white px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400">@for (option of ownerOptions; track option.value) { <option [value]="option.value">{{ option.label }}</option> }</select></div>
+        <div><label for="dashboard-channel" class="block text-sm font-medium text-slate-200 mb-1.5">Canal de captación</label><select id="dashboard-channel" [value]="filters().channel" (change)="updateFilter('channel', $event)" class="w-full rounded-xl border border-slate-600 bg-slate-950 text-white px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400">@for (option of channelOptions; track option.value) { <option [value]="option.value">{{ option.label }}</option> }</select></div>
+      </div>
+    </section>
+
+    <p class="sr-only" role="status" aria-live="polite">{{ rows().length }} oportunidades con los filtros actuales.</p>
+
+    <section aria-label="Indicadores de las oportunidades filtradas" class="grid sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
+      <div class="rounded-2xl bg-slate-900/60 border border-slate-700/80 p-5 min-w-0"><p class="text-sm text-slate-400">Oportunidades</p><p data-testid="kpi-total" class="text-3xl font-bold text-white mt-2">{{ summary().total }}</p><p class="mt-3 text-xs text-slate-400 leading-relaxed">Incluye abiertas, ganadas y perdidas.</p></div>
+      <div class="rounded-2xl bg-slate-900/60 border border-slate-700/80 p-5 min-w-0"><p class="text-sm text-slate-400">Valor ganado · CLP</p><p data-testid="kpi-won" class="text-2xl sm:text-3xl font-bold text-emerald-300 mt-2 break-words">{{ money(summary().wonValue) }}</p><p class="mt-3 text-xs text-slate-400 leading-relaxed">Suma de {{ summary().wonCount }} oportunidades ganadas.</p></div>
+      <div class="rounded-2xl bg-slate-900/60 border border-slate-700/80 p-5 min-w-0"><p class="text-sm text-slate-400">Pipeline abierto · CLP</p><p data-testid="kpi-open" class="text-2xl sm:text-3xl font-bold text-blue-300 mt-2 break-words">{{ money(summary().openValue) }}</p><p class="mt-3 text-xs text-slate-400 leading-relaxed">Importe de {{ summary().openCount }} oportunidades abiertas; no es ingreso asegurado.</p></div>
+      <div class="rounded-2xl bg-slate-900/60 border border-slate-700/80 p-5 min-w-0"><p class="text-sm text-slate-400">Tasa de cierre</p><p data-testid="kpi-rate" class="text-3xl font-bold text-white mt-2">{{ percentage(summary().winRate) }}</p><p class="mt-3 text-xs text-slate-400 leading-relaxed">Ganadas / (ganadas + perdidas). {{ summary().wonCount + summary().lostCount }} cerradas en este grupo.</p></div>
+    </section>
+
+    @if (rows().length === 0) {
+      <section aria-labelledby="empty-title" class="rounded-3xl border border-dashed border-slate-600 bg-slate-900/40 p-8 sm:p-10 text-center mb-6">
+        <h2 id="empty-title" class="text-xl font-semibold text-white">No hay oportunidades con estos filtros</h2><p class="mt-3 text-sm text-slate-400 max-w-lg mx-auto">Prueba otro período, responsable o canal. Los ceros indican que este grupo no tiene datos en el ejemplo.</p><button type="button" (click)="reset()" class="mt-5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 text-sm font-semibold transition">Mostrar todos los datos</button>
+      </section>
+    }
+
+    <div class="grid lg:grid-cols-2 gap-6 mb-6 min-w-0">
+      <section aria-labelledby="monthly-title" class="rounded-3xl bg-slate-900/60 border border-slate-700 p-5 sm:p-6 min-w-0">
+        <h2 id="monthly-title" class="text-xl font-semibold text-white">Valor ganado por mes de entrada</h2><p class="mt-2 text-sm text-slate-400 leading-relaxed">Importe de las oportunidades hoy ganadas, agrupado por el mes en que entraron. No representa la fecha de cobro.</p>
+        <ul aria-label="Valor ganado por mes, en pesos chilenos" class="mt-6 space-y-5">
+          @for (month of months(); track month.key) {
+            <li><div class="flex justify-between items-baseline gap-3 text-sm"><span class="text-slate-300">{{ month.label }}</span><span class="text-white font-medium whitespace-nowrap">{{ money(month.wonValue) }}</span></div><div class="mt-2 rounded-full bg-slate-800 h-2.5 overflow-hidden" aria-hidden="true"><div class="h-full rounded-full bg-blue-500" [style.width.%]="barWidth(month.wonValue, maxMonthlyValue())"></div></div></li>
+          }
+        </ul>
+        @if (summary().wonCount === 0) { <p class="mt-5 text-xs text-slate-400">Sin oportunidades ganadas en este grupo.</p> }
+      </section>
+
+      <section aria-labelledby="stages-title" class="rounded-3xl bg-slate-900/60 border border-slate-700 p-5 sm:p-6 min-w-0">
+        <h2 id="stages-title" class="text-xl font-semibold text-white">Distribución por etapa</h2><p class="mt-2 text-sm text-slate-400 leading-relaxed">Cantidad de oportunidades en cada etapa. El importe al pie ayuda a dimensionar cada grupo.</p>
+        <ul aria-label="Cantidad e importe por etapa comercial" class="mt-6 space-y-4">
+          @for (stage of stages(); track stage.stage) {
+            <li><div class="flex justify-between items-baseline gap-3 text-sm"><span class="text-slate-300">{{ stage.label }}</span><span class="text-white font-medium">{{ stage.count }} <span class="font-normal text-slate-400">{{ stage.count === 1 ? 'oportunidad' : 'oportunidades' }}</span></span></div><div class="mt-2 rounded-full bg-slate-800 h-2.5 overflow-hidden" aria-hidden="true"><div class="h-full rounded-full" [class.bg-emerald-400]="stage.stage === 'ganado'" [class.bg-slate-500]="stage.stage === 'perdido'" [class.bg-blue-500]="stage.stage !== 'ganado' && stage.stage !== 'perdido'" [style.width.%]="barWidth(stage.count, maxStageCount())"></div></div><p class="mt-1.5 text-xs text-slate-400">{{ money(stage.amount) }} CLP</p></li>
+          }
+        </ul>
+      </section>
+    </div>
+
+    <section aria-labelledby="channels-title" class="rounded-3xl bg-slate-900/60 border border-slate-700 p-5 sm:p-6 mb-6 min-w-0">
+      <h2 id="channels-title" class="text-xl font-semibold text-white">Qué aporta cada canal</h2><p class="mt-2 text-sm text-slate-400">El mismo grupo de oportunidades, comparado por origen. La tasa usa solo las oportunidades cerradas.</p>
+      <div class="overflow-x-auto mt-5 rounded-xl border border-slate-800" tabindex="0" role="region" aria-label="Resultados por canal; desplázate horizontalmente si es necesario">
+        <table class="w-full min-w-[600px] text-sm text-left"><caption class="sr-only">Resultados por canal con los filtros actuales. Importes en pesos chilenos.</caption><thead class="bg-slate-950/60 text-slate-400 text-xs"><tr><th scope="col" class="px-4 py-3 font-medium">Canal</th><th scope="col" class="px-4 py-3 text-right font-medium">Oportunidades</th><th scope="col" class="px-4 py-3 text-right font-medium">Ganadas</th><th scope="col" class="px-4 py-3 text-right font-medium">Valor ganado · CLP</th><th scope="col" class="px-4 py-3 text-right font-medium">Tasa de cierre</th></tr></thead><tbody class="divide-y divide-slate-800">@for (channel of channels(); track channel.channel) { <tr><th scope="row" class="px-4 py-4 font-medium text-white">{{ channel.label }}</th><td class="px-4 py-4 text-right">{{ channel.total }}</td><td class="px-4 py-4 text-right">{{ channel.wonCount }}</td><td class="px-4 py-4 text-right text-emerald-300">{{ money(channel.wonValue) }}</td><td class="px-4 py-4 text-right">{{ percentage(channel.winRate) }}</td></tr> }</tbody></table>
+      </div>
+    </section>
+
+    <section aria-labelledby="opportunities-title" class="rounded-3xl bg-slate-900/60 border border-slate-700 p-5 sm:p-6 min-w-0">
+      <div class="flex flex-wrap items-baseline justify-between gap-3"><h2 id="opportunities-title" class="text-xl font-semibold text-white">De los indicadores a cada oportunidad</h2><p class="text-xs text-slate-400">{{ rows().length }} oportunidades · Entradas más recientes primero</p></div><p class="mt-2 text-sm text-slate-400">Pulsa el nombre de una empresa para revisar su próxima acción.</p>
+      <div class="overflow-auto max-h-[30rem] mt-5 rounded-xl border border-slate-800" tabindex="0" role="region" aria-label="Oportunidades filtradas; desplázate para explorar la tabla">
+        <table class="w-full min-w-[760px] text-sm text-left"><caption class="sr-only">Oportunidades con los filtros actuales. Importes en pesos chilenos. Cada empresa abre su ficha.</caption><thead class="sticky top-0 bg-slate-950 text-slate-400 text-xs"><tr><th scope="col" class="px-4 py-3 font-medium">Empresa / contacto</th><th scope="col" class="px-4 py-3 font-medium">Responsable</th><th scope="col" class="px-4 py-3 font-medium">Canal</th><th scope="col" class="px-4 py-3 font-medium">Etapa</th><th scope="col" class="px-4 py-3 text-right font-medium">Importe · CLP</th><th scope="col" class="px-4 py-3 font-medium">Entrada</th></tr></thead><tbody class="divide-y divide-slate-800">
+          @for (row of rows(); track row.id) {
+            <tr data-testid="opportunity-row" [class.bg-blue-950]="selectedId() === row.id"><th scope="row" class="px-4 py-3 font-normal"><button type="button" (click)="selectOpportunity(row.id)" [attr.aria-expanded]="selectedId() === row.id" aria-controls="dashboard-opportunity-detail" [attr.aria-label]="'Ver oportunidad de ' + row.company" class="text-left text-blue-300 hover:text-white font-semibold py-1 transition">{{ row.company }}</button><span class="block text-xs text-slate-400 mt-0.5">{{ row.contact }}</span></th><td class="px-4 py-3 whitespace-nowrap">{{ ownerLabel(row.owner) }}</td><td class="px-4 py-3">{{ channelLabel(row.channel) }}</td><td class="px-4 py-3 whitespace-nowrap">{{ stageLabel(row.stage) }}</td><td class="px-4 py-3 text-right whitespace-nowrap text-white">{{ money(row.amount) }}</td><td class="px-4 py-3 whitespace-nowrap">{{ date(row.createdAt) }}</td></tr>
+          } @empty { <tr><td colspan="6" class="px-4 py-8 text-center text-slate-400">No hay oportunidades que mostrar.</td></tr> }
+        </tbody></table>
+      </div>
+
+      @if (selectedOpportunity()) { <a [routerLink]="[]" fragment="dashboard-opportunity-detail" class="inline-flex items-center gap-2 mt-4 py-2 text-sm font-semibold text-blue-300 hover:text-white transition">Ver ficha seleccionada <span aria-hidden="true">↓</span></a> }
+
+      <div id="dashboard-opportunity-detail" class="mt-6 scroll-mt-28 rounded-2xl border border-slate-700 bg-slate-950/40 p-5 sm:p-6" aria-live="polite">
+        @if (selectedOpportunity(); as opportunity) {
+          <div class="flex justify-between items-start gap-4"><div class="min-w-0"><p class="text-blue-400 font-semibold text-xs uppercase tracking-widest">Ficha de oportunidad</p><h3 class="mt-2 text-xl text-white font-semibold break-words">{{ opportunity.company }}</h3><p class="mt-1 text-sm text-slate-400">{{ opportunity.contact }}</p></div><button type="button" (click)="selectedId.set(null)" class="text-sm text-slate-400 hover:text-white p-1 transition" aria-label="Cerrar ficha">Cerrar</button></div>
+          <dl class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-6 text-sm"><div><dt class="text-slate-400">Responsable y canal</dt><dd class="mt-1 text-slate-200">{{ ownerLabel(opportunity.owner) }} · {{ channelLabel(opportunity.channel) }}</dd></div><div><dt class="text-slate-400">Servicio</dt><dd class="mt-1 text-slate-200">{{ opportunity.service }}</dd></div><div><dt class="text-slate-400">Etapa e importe</dt><dd class="mt-1 text-slate-200">{{ stageLabel(opportunity.stage) }} · {{ money(opportunity.amount) }} CLP</dd></div><div><dt class="text-slate-400">Fecha de entrada</dt><dd class="mt-1 text-slate-200">{{ date(opportunity.createdAt) }}</dd></div></dl><div class="mt-5 rounded-xl bg-blue-950/30 border border-blue-900 p-4"><p class="text-xs font-medium text-blue-300 uppercase tracking-wider">Próxima acción del ejemplo</p><p class="text-sm text-white mt-2">{{ opportunity.nextAction }}</p></div>
+        } @else { <h3 class="text-white font-semibold">Cada número tiene una oportunidad detrás</h3><p class="text-sm text-slate-400 mt-2">Selecciona una empresa de la tabla para ver el responsable, el servicio y su próxima acción.</p> }
+      </div>
+    </section>
+
+    <section aria-labelledby="dashboard-contact-title" class="mt-10 rounded-3xl border border-blue-900 bg-blue-950/20 p-6 sm:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6"><div class="max-w-2xl"><h2 id="dashboard-contact-title" class="text-xl sm:text-2xl font-semibold text-white">¿Tus datos comerciales están repartidos?</h2><p class="text-sm text-slate-400 mt-3 leading-relaxed">Podemos conectar tus herramientas y definir indicadores que ayuden a tu equipo a decidir y dar seguimiento.</p></div><a routerLink="/" fragment="contacto" class="inline-flex shrink-0 items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full px-6 py-3 transition">Hablemos de tu dashboard <span aria-hidden="true">→</span></a></section>
+  </div>
+</div>

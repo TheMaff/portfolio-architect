@@ -13,7 +13,7 @@ npm run build
 npm test -- --watch=false --browsers=ChromeHeadless
 ```
 
-La compilación publica archivos estáticos en `dist/me-pro-portfolio/browser`. La configuración está en `netlify.toml`. La actualización de Angular corresponde a una etapa posterior. La portada y la demo se cargan en rutas independientes.
+La compilación publica archivos estáticos en `dist/me-pro-portfolio/browser`. La configuración está en `netlify.toml`. La actualización de Angular corresponde a una etapa posterior. La portada y las demos se cargan en rutas independientes.
 
 ## Contacto y recepción de consultas
 
@@ -42,7 +42,7 @@ El componente anterior `DevScoreComponent` ya no se monta en la portada. La evid
 
 Trabaja mediante ramas y revisión previa. Conecta el repositorio al proyecto Netlify y verifica que la rama de producción sea la prevista. El comando y directorio de publicación están versionados; habilitar Forms y sus notificaciones se realiza en la configuración del proyecto.
 
-La portada conserva su estética original. La demo comercial tiene su propia ruta con carga diferida y acceso desde la portada y la navegación.
+La portada conserva su estética original. Las dos demos tienen rutas propias con carga diferida y acceso desde la sección Demos. También hay enlaces para pasar de una demo a la otra.
 
 ## Demo de captación y seguimiento comercial
 
@@ -60,3 +60,24 @@ Recorrido para probar:
 Las cifras del tablero son conteos de los datos ficticios, no resultados comerciales reales. El botón de contacto de la demo vuelve al formulario real de The Maff; no copia ni envía los datos de ejemplo.
 
 El shell compartido conserva cabecera, pie y enlace para saltar al contenido. Las anclas del menú llevan a la portada desde cualquier ruta. La regla Netlify limitada a `/demos/*` permite abrir o recargar la URL de la demo sin afectar `/contact-form.html`, los activos ni el POST del contacto real.
+
+## Demo de dashboard comercial
+
+Ruta: `/demos/dashboard-comercial`. Usa un conjunto fijo de oportunidades sintéticas de enero a junio de 2026, con importes enteros en pesos chilenos (CLP). Es independiente de la primera demo y no representa resultados de The Maff ni de sus clientes.
+
+Los filtros se combinan por **fecha de entrada**, responsable y canal. Indicadores, gráficos y tabla usan las mismas oportunidades filtradas:
+
+- **Valor ganado:** suma del importe de las oportunidades ganadas de ese conjunto; no es facturación cobrada.
+- **Pipeline abierto:** suma del importe en Nuevo, Contactado y Propuesta; no es una previsión ponderada.
+- **Tasa de cierre:** ganadas / (ganadas + perdidas). Sin oportunidades cerradas se muestra sin dato, en lugar de un porcentaje inventado.
+- **Valor ganado por mes de entrada:** agrupa las ganadas según su fecha de entrada; no mide el mes del cierre.
+
+Recorrido para probar:
+
+1. Revisar el semestre completo y la explicación de los indicadores.
+2. Cambiar el período de entrada, el responsable y el canal; comprobar cómo cambian juntos las cifras, gráficos y oportunidades.
+3. Abrir el detalle de una oportunidad para ver su contexto y próxima acción.
+4. Probar una combinación sin resultados y restablecer los filtros.
+5. Pasar a la demo de captación o volver al contacto real desde el CTA.
+
+Los gráficos incluyen valores textuales y los datos están disponibles en la tabla. No se añaden librerías de gráficos. El dashboard no hace solicitudes, no envía formularios ni guarda filtros o datos en el navegador; al volver a entrar se recupera la vista inicial.

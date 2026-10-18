@@ -23,8 +23,8 @@ import { RouterLink } from '@angular/router';
           <a href="#contacto" class="bg-blue-600 px-7 py-3.5 rounded-full font-medium hover:bg-blue-700 transition shadow-lg shadow-blue-500/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-400">
             Conversemos sobre tu proceso
           </a>
-          <a routerLink="/demos/seguimiento-comercial" class="border border-slate-600 px-7 py-3.5 rounded-full font-medium hover:border-slate-400 hover:bg-slate-800/50 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-400">
-            Probar demo comercial
+          <a routerLink="/" fragment="demos" class="border border-slate-600 px-7 py-3.5 rounded-full font-medium hover:border-slate-400 hover:bg-slate-800/50 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-400">
+            Explorar demos
           </a>
         </div>
         <p class="mt-6 text-sm text-slate-400">Empecemos por el proceso que hoy te quita más tiempo.</p>
