@@ -1,14 +1,8 @@
-<a href="#contenido" class="skip-link">Saltar al contenido</a>
+<a [routerLink]="[]" fragment="contenido" class="skip-link">Saltar al contenido</a>
 <app-header></app-header>
 
 <main id="contenido" tabindex="-1" class="bg-brand-dark min-h-screen selection:bg-blue-700 selection:text-white">
-  <app-hero></app-hero>
-  <app-case-studies></app-case-studies>
-  <app-process></app-process>
-  <app-experience></app-experience>
-  <app-quality></app-quality>
-  <app-projects></app-projects>
-  <app-contact></app-contact>
+  <router-outlet></router-outlet>
 </main>
 
 <footer class="bg-brand-dark border-t border-slate-800 px-6 py-8 text-center text-sm text-slate-400">

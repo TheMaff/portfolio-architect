@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-hero',
   standalone: true,
+  imports: [RouterLink],
   template: `
     <section id="inicio" aria-labelledby="hero-title" class="min-h-screen flex items-center justify-center bg-brand-dark text-white px-6 pt-36 pb-24 sm:px-8">
       <div class="max-w-5xl text-center">
@@ -21,8 +23,8 @@ import { Component } from '@angular/core';
           <a href="#contacto" class="bg-blue-600 px-7 py-3.5 rounded-full font-medium hover:bg-blue-700 transition shadow-lg shadow-blue-500/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-400">
             Conversemos sobre tu proceso
           </a>
-          <a href="#soluciones" class="border border-slate-600 px-7 py-3.5 rounded-full font-medium hover:border-slate-400 hover:bg-slate-800/50 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-400">
-            Explorar soluciones
+          <a routerLink="/demos/seguimiento-comercial" class="border border-slate-600 px-7 py-3.5 rounded-full font-medium hover:border-slate-400 hover:bg-slate-800/50 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-400">
+            Probar demo comercial
           </a>
         </div>
         <p class="mt-6 text-sm text-slate-400">Empecemos por el proceso que hoy te quita más tiempo.</p>

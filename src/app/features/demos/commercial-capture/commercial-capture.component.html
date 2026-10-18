@@ -1,0 +1,194 @@
+<div class="bg-brand-dark text-slate-300 pt-32 pb-20 sm:pt-36">
+  <div class="max-w-7xl mx-auto px-6 sm:px-8">
+    <a routerLink="/" fragment="demos" class="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-white transition">
+      <span aria-hidden="true">←</span> Volver a The Maff
+    </a>
+
+    <section aria-labelledby="demo-title" class="mt-9 mb-10 max-w-4xl">
+      <p class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-950/50 border border-blue-800 text-blue-200 text-xs sm:text-sm font-medium mb-5">
+        <span class="w-2 h-2 rounded-full bg-blue-400" aria-hidden="true"></span>
+        Demo interactiva · Datos ficticios
+      </p>
+      <h1 id="demo-title" class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-tight">
+        Cada consulta merece<br class="hidden sm:block"> <span class="text-brand-accent">un siguiente paso.</span>
+      </h1>
+      <p class="text-lg text-slate-400 leading-relaxed mt-5 max-w-3xl">
+        Prueba cómo una consulta se convierte en una oportunidad: detecta duplicados, asigna un responsable y organiza el seguimiento en un solo lugar.
+      </p>
+      <p id="demo-notice" class="mt-5 text-sm text-slate-300 leading-relaxed border-l-2 border-blue-500 pl-4">
+        Usa solo datos de ejemplo. Esta simulación no se conecta a un CRM ni envía correos. Los cambios se borran al recargar o reiniciar la demo.
+      </p>
+    </section>
+
+    <ol aria-label="Cómo probar la demo" class="grid md:grid-cols-3 gap-4 mb-10">
+      <li class="flex gap-3 p-5 rounded-2xl border border-slate-700/80 bg-slate-900/60">
+        <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-500/10 text-blue-300 text-sm font-semibold" aria-hidden="true">1</span>
+        <div><p class="text-white font-semibold">Carga un ejemplo</p><p class="mt-1 text-sm text-slate-400">Empieza con una consulta nueva o una ya registrada.</p></div>
+      </li>
+      <li class="flex gap-3 p-5 rounded-2xl border border-slate-700/80 bg-slate-900/60">
+        <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-500/10 text-blue-300 text-sm font-semibold" aria-hidden="true">2</span>
+        <div><p class="text-white font-semibold">Simula la captación</p><p class="mt-1 text-sm text-slate-400">Comprueba la asignación y la próxima acción.</p></div>
+      </li>
+      <li class="flex gap-3 p-5 rounded-2xl border border-slate-700/80 bg-slate-900/60">
+        <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-500/10 text-blue-300 text-sm font-semibold" aria-hidden="true">3</span>
+        <div><p class="text-white font-semibold">Avanza el seguimiento</p><p class="mt-1 text-sm text-slate-400">Selecciona una tarjeta y cambia su etapa.</p></div>
+      </li>
+    </ol>
+
+    <div class="flex flex-wrap items-center justify-between gap-4 mb-5">
+      <h2 class="text-xl font-semibold text-white">Tu espacio de prueba</h2>
+      <button type="button" (click)="reset()" class="inline-flex items-center gap-2 border border-slate-600 rounded-full px-4 py-2 text-sm font-medium text-slate-300 hover:text-white hover:border-slate-400 transition">
+        <svg aria-hidden="true" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 11a9 9 0 1 1 2.64 7.36M3 4v7h7"/></svg>
+        Reiniciar demo
+      </button>
+    </div>
+
+    <div class="grid lg:grid-cols-12 gap-6 items-start">
+      <section aria-labelledby="capture-title" class="lg:col-span-4 rounded-3xl bg-slate-900/60 border border-slate-700 p-5 sm:p-6 min-w-0">
+        <p class="text-blue-400 font-semibold text-xs uppercase tracking-widest">Captación</p>
+        <h3 id="capture-title" class="mt-2 text-xl font-semibold text-white">Una nueva consulta</h3>
+        <p class="text-sm text-slate-400 mt-2 mb-5">Usa los ejemplos o inventa tus propios datos.</p>
+        <div class="flex flex-wrap gap-2 mb-6">
+          <button type="button" (click)="loadExample('new')" class="rounded-lg border border-blue-700 bg-blue-950/40 text-blue-200 px-3 py-2.5 text-xs font-medium hover:bg-blue-900/40 transition">Cargar ejemplo nuevo</button>
+          <button type="button" (click)="loadExample('duplicate')" class="rounded-lg border border-slate-600 text-slate-300 px-3 py-2.5 text-xs font-medium hover:bg-slate-800 transition">Probar un duplicado</button>
+        </div>
+
+        <form [formGroup]="form" (ngSubmit)="submit()" novalidate aria-describedby="demo-notice">
+          <p class="text-xs text-slate-400 mb-4">Los campos con * son obligatorios.</p>
+          <div class="space-y-4">
+            <div>
+              <label for="demo-name" class="block text-sm font-medium text-slate-200 mb-1.5">Nombre *</label>
+              <input id="demo-name" formControlName="name" type="text" autocomplete="off" required maxlength="80" placeholder="Laura Ejemplo" [attr.aria-invalid]="hasError('name')" [attr.aria-describedby]="hasError('name') ? 'demo-name-error' : null" class="w-full rounded-xl border border-slate-600 bg-slate-950/60 text-white placeholder:text-slate-500 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400">
+              @if (hasError('name')) { <p id="demo-name-error" class="mt-1.5 text-sm text-red-300">Escribe un nombre de ejemplo, hasta 80 caracteres.</p> }
+            </div>
+            <div>
+              <label for="demo-email" class="block text-sm font-medium text-slate-200 mb-1.5">Correo ficticio *</label>
+              <input id="demo-email" formControlName="email" type="email" inputmode="email" autocomplete="off" required maxlength="254" placeholder="laura@example.com" [attr.aria-invalid]="hasError('email')" [attr.aria-describedby]="hasError('email') ? 'demo-email-error' : null" class="w-full rounded-xl border border-slate-600 bg-slate-950/60 text-white placeholder:text-slate-500 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400">
+              @if (hasError('email')) { <p id="demo-email-error" class="mt-1.5 text-sm text-red-300">Usa un correo con formato válido, como laura&#64;example.com.</p> }
+            </div>
+            <div>
+              <label for="demo-company" class="block text-sm font-medium text-slate-200 mb-1.5">Empresa <span class="font-normal text-slate-400">(opcional)</span></label>
+              <input id="demo-company" formControlName="company" type="text" autocomplete="off" maxlength="120" placeholder="Empresa de ejemplo" [attr.aria-invalid]="hasError('company')" [attr.aria-describedby]="hasError('company') ? 'demo-company-error' : null" class="w-full rounded-xl border border-slate-600 bg-slate-950/60 text-white placeholder:text-slate-500 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400">
+              @if (hasError('company')) { <p id="demo-company-error" class="mt-1.5 text-sm text-red-300">Usa hasta 120 caracteres para la empresa.</p> }
+            </div>
+            <div>
+              <label for="demo-service" class="block text-sm font-medium text-slate-200 mb-1.5">Interés principal *</label>
+              <select id="demo-service" formControlName="service" required [attr.aria-invalid]="hasError('service')" [attr.aria-describedby]="hasError('service') ? 'demo-service-error' : null" class="w-full rounded-xl border border-slate-600 bg-slate-950 text-white px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400">
+                <option value="" disabled>Selecciona un servicio</option>
+                @for (option of serviceOptions; track option.value) { <option [value]="option.value">{{ option.label }}</option> }
+              </select>
+              @if (hasError('service')) { <p id="demo-service-error" class="mt-1.5 text-sm text-red-300">Selecciona un servicio para asignar responsable.</p> }
+            </div>
+            <div>
+              <label for="demo-source" class="block text-sm font-medium text-slate-200 mb-1.5">Origen de la consulta *</label>
+              <select id="demo-source" formControlName="source" required [attr.aria-invalid]="hasError('source')" [attr.aria-describedby]="hasError('source') ? 'demo-source-error' : null" class="w-full rounded-xl border border-slate-600 bg-slate-950 text-white px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400">
+                @for (option of sourceOptions; track option.value) { <option [value]="option.value">{{ option.label }}</option> }
+              </select>
+              @if (hasError('source')) { <p id="demo-source-error" class="mt-1.5 text-sm text-red-300">Selecciona de dónde llega la consulta.</p> }
+            </div>
+            <button id="demo-submit" type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-3 rounded-xl transition shadow-lg shadow-blue-500/10">Simular captación</button>
+          </div>
+          <div aria-live="polite" aria-atomic="true">
+            @if (feedback(); as notice) {
+              <p [attr.role]="notice.kind === 'error' ? 'alert' : 'status'" class="mt-4 rounded-xl border p-3.5 text-sm leading-relaxed" [ngClass]="notice.kind === 'error' ? 'border-red-800 bg-red-950/40 text-red-200' : notice.kind === 'duplicate' ? 'border-amber-800 bg-amber-950/30 text-amber-200' : 'border-blue-800 bg-blue-950/40 text-blue-200'">{{ notice.message }}</p>
+            }
+          </div>
+          @if (selectedLead() && feedback()?.kind !== 'error' && feedback()?.kind !== 'ready') {
+            <a [routerLink]="[]" fragment="opportunity-detail" class="inline-flex mt-4 py-2 text-sm font-semibold text-blue-300 hover:text-white transition">Ver seguimiento <span class="ml-2" aria-hidden="true">→</span></a>
+          }
+        </form>
+      </section>
+
+      <div class="lg:col-span-8 min-w-0 space-y-6">
+        <section aria-label="Resumen de datos ficticios" class="grid grid-cols-3 gap-3">
+          <div class="rounded-2xl bg-slate-900/60 border border-slate-700/80 p-3 sm:p-4 min-w-0"><p class="text-xs sm:text-sm text-slate-400">Total<span class="sr-only"> de oportunidades</span></p><p class="text-2xl font-bold text-white mt-1">{{ state().leads.length }}</p></div>
+          <div class="rounded-2xl bg-slate-900/60 border border-slate-700/80 p-3 sm:p-4 min-w-0"><p class="text-xs sm:text-sm text-slate-400">Abiertas</p><p class="text-2xl font-bold text-blue-300 mt-1">{{ openCount() }}</p></div>
+          <div class="rounded-2xl bg-slate-900/60 border border-slate-700/80 p-3 sm:p-4 min-w-0"><p class="text-xs sm:text-sm text-slate-400">Ganadas</p><p class="text-2xl font-bold text-emerald-300 mt-1">{{ wonCount() }}</p></div>
+        </section>
+
+        <section aria-labelledby="pipeline-title">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+            <h3 id="pipeline-title" class="text-lg font-semibold text-white">Seguimiento comercial</h3>
+            <p class="text-xs text-slate-400">Selecciona una tarjeta para ver su detalle</p>
+          </div>
+          <div class="grid sm:grid-cols-2 xl:grid-cols-4 gap-3 items-start">
+            @for (column of columns(); track column.value) {
+              <section [attr.aria-labelledby]="'stage-' + column.value" class="rounded-2xl bg-slate-950/30 border border-slate-800 p-3 min-w-0">
+                <h4 [id]="'stage-' + column.value" class="flex items-center justify-between gap-2 text-sm text-slate-200 font-semibold pb-3 mb-1">
+                  <span class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full" [class.bg-emerald-400]="column.value === 'ganado'" [class.bg-blue-400]="column.value !== 'ganado'" aria-hidden="true"></span>{{ column.label }}</span>
+                  <span class="text-xs font-normal text-slate-400">{{ column.leads.length }}<span class="sr-only"> oportunidades</span></span>
+                </h4>
+                <div class="space-y-3">
+                  @for (lead of column.leads; track lead.id) {
+                    <button type="button" (click)="selectLead(lead.id)" [attr.aria-pressed]="selectedId() === lead.id" [attr.aria-label]="'Ver oportunidad de ' + lead.name + ', etapa ' + column.label" class="block text-left w-full p-3.5 rounded-xl border bg-slate-900/80 hover:bg-slate-800/80 transition min-w-0" [class.border-blue-400]="selectedId() === lead.id" [class.ring-1]="selectedId() === lead.id" [class.ring-blue-400]="selectedId() === lead.id" [class.border-slate-700]="selectedId() !== lead.id">
+                      <span class="block font-semibold text-sm text-white break-words">{{ lead.name }}</span>
+                      <span class="block mt-1 text-xs text-slate-400 break-words">{{ lead.company || 'Sin empresa indicada' }}</span>
+                      <span class="block mt-3 text-xs text-blue-200 leading-relaxed break-words">{{ serviceLabel(lead.service) }}</span>
+                      <span class="block mt-3 pt-3 border-t border-slate-700/60 text-xs text-slate-400 break-words">{{ lead.owner }}</span>
+                    </button>
+                  } @empty {
+                    <p class="text-xs text-slate-500 border border-dashed border-slate-700 rounded-xl p-4">Sin oportunidades en esta etapa.</p>
+                  }
+                </div>
+              </section>
+            }
+          </div>
+        </section>
+
+        <section id="opportunity-detail" aria-labelledby="detail-title" class="rounded-3xl bg-slate-900/60 border border-slate-700 p-5 sm:p-6 min-w-0">
+          @if (selectedLead(); as lead) {
+            <div class="flex flex-wrap justify-between items-start gap-3 mb-5">
+              <div class="min-w-0">
+                <p class="text-blue-400 font-semibold text-xs uppercase tracking-widest">Oportunidad seleccionada</p>
+                <h3 id="detail-title" class="mt-2 text-xl font-semibold text-white break-words">{{ lead.name }}</h3>
+                <p class="mt-1 text-sm text-slate-400 break-all">{{ lead.email }}</p>
+              </div>
+              <span class="text-xs font-medium text-blue-200 bg-blue-950/50 border border-blue-800 rounded-full px-3 py-1.5">{{ stageLabel(lead.stage) }}</span>
+            </div>
+            <div class="grid sm:grid-cols-2 gap-6">
+              <div class="min-w-0">
+                <dl class="space-y-3 text-sm">
+                  <div><dt class="text-slate-400">Empresa</dt><dd class="mt-0.5 text-slate-200 break-words">{{ lead.company || 'Sin empresa indicada' }}</dd></div>
+                  <div><dt class="text-slate-400">Interés y origen</dt><dd class="mt-0.5 text-slate-200">{{ serviceLabel(lead.service) }} · {{ sourceLabel(lead.source) }}</dd></div>
+                  <div><dt class="text-slate-400">Responsable asignado</dt><dd class="mt-0.5 text-white font-medium">{{ lead.owner }}</dd></div>
+                </dl>
+                <div class="mt-5 rounded-xl bg-blue-950/30 border border-blue-900 p-4">
+                  <p class="text-xs font-medium text-blue-300 uppercase tracking-wider">Próxima acción</p>
+                  <p class="text-sm font-medium text-white mt-2">{{ lead.nextAction.label }}</p>
+                  <p class="text-xs text-slate-400 mt-1.5">{{ lead.nextAction.dueLabel }}</p>
+                </div>
+                @if (nextStage(); as next) {
+                  <button type="button" (click)="advanceSelected()" class="mt-4 w-full rounded-xl bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 text-sm font-semibold transition">{{ next.value === 'ganado' ? 'Marcar como ganado' : 'Avanzar a ' + next.label }} <span aria-hidden="true">→</span></button>
+                } @else {
+                  <p class="mt-4 text-sm text-emerald-300">Recorrido completado. Puedes probar otra oportunidad o reiniciar la demo.</p>
+                }
+              </div>
+              <div class="min-w-0">
+                <h4 class="text-sm font-semibold text-white mb-4">Historial de actividad</h4>
+                <ol class="space-y-4" aria-label="Actividad de la oportunidad seleccionada">
+                  @for (activity of lead.activities; track activity.id) {
+                    <li class="flex gap-3 text-sm text-slate-400 leading-relaxed"><span class="w-1.5 h-1.5 mt-2 shrink-0 rounded-full bg-blue-400" aria-hidden="true"></span><span class="break-words min-w-0">{{ activity.label }}</span></li>
+                  }
+                </ol>
+              </div>
+            </div>
+          } @else {
+            <div class="py-5 text-center max-w-md mx-auto">
+              <div class="inline-flex h-11 w-11 rounded-xl bg-blue-500/10 items-center justify-center text-blue-300 mb-4" aria-hidden="true"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="16" height="16" rx="3"/><path stroke-linecap="round" d="M8 9h8M8 13h5M8 17h3"/></svg></div>
+              <h3 id="detail-title" class="text-lg font-semibold text-white">El siguiente paso, siempre a la vista</h3>
+              <p class="text-sm text-slate-400 mt-2 leading-relaxed">Selecciona una oportunidad del tablero o simula una consulta para ver su responsable, próxima acción e historial.</p>
+            </div>
+          }
+        </section>
+      </div>
+    </div>
+
+    <section aria-labelledby="demo-contact-title" class="mt-12 rounded-3xl border border-blue-900 bg-blue-950/20 p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+      <div class="max-w-2xl">
+        <h2 id="demo-contact-title" class="text-xl sm:text-2xl font-semibold text-white">¿Tu equipo necesita un seguimiento así?</h2>
+        <p class="mt-3 text-slate-400 leading-relaxed">Podemos adaptar este flujo a tus canales, responsables y herramientas. Empecemos por cómo llegan y se atienden tus consultas hoy.</p>
+      </div>
+      <a routerLink="/" fragment="contacto" class="shrink-0 text-center bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3.5 rounded-full transition shadow-lg shadow-blue-500/10">Quiero aplicarlo a mi negocio</a>
+    </section>
+  </div>
+</div>
