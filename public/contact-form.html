@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="robots" content="noindex">
+    <title>Registro del formulario de contacto | The Maff</title>
+  </head>
+  <body>
+    <!-- Netlify scans built HTML, so Angular's contact form needs this static definition.
+         Keep names and fields in sync with ContactComponent. Enable form detection before deploying. -->
+    <form name="b2b-contact" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="hidden" name="form-name" value="b2b-contact">
+      <input name="bot-field" type="text">
+      <input name="name" type="text">
+      <input name="email" type="email">
+      <input name="company" type="text">
+      <select name="service">
+        <option value="automatizacion">Automatización de procesos</option>
+        <option value="crm">CRM y seguimiento comercial</option>
+        <option value="integraciones">Integración de herramientas</option>
+        <option value="dashboards">Dashboards e indicadores</option>
+      </select>
+      <textarea name="process"></textarea>
+      <input name="tools" type="text">
+    </form>
+    <p>Para conversar sobre tu proyecto, <a href="/#contacto">visita el formulario de contacto de The Maff</a>.</p>
+  </body>
+</html>

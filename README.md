@@ -1,59 +1,45 @@
-# MeProPortfolio
+# The Maff
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.23.
+Sitio de servicios B2B de Marcos Flores: automatización de procesos, CRM, integraciones y dashboards.
 
-## Development server
+## Desarrollo
 
-To start a local development server, run:
+Angular 19.2, TypeScript y Tailwind CSS. Usa Node.js 22.
 
-```bash
-ng serve
+```sh
+npm ci
+npm start
+npm run build
+npm test -- --watch=false --browsers=ChromeHeadless
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+La compilación publica archivos estáticos en `dist/me-pro-portfolio/browser`. La configuración está en `netlify.toml`. La actualización de Angular y las rutas de demos corresponden a una etapa posterior.
 
-## Code scaffolding
+## Contacto y recepción de consultas
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+El formulario usa Netlify Forms, sin claves en el cliente. `public/contact-form.html` registra el formulario en el HTML de compilación para que Netlify pueda detectarlo. Su nombre (`b2b-contact`) y campos deben coincidir con `ContactComponent`: `form-name`, `bot-field`, `name`, `email`, `company`, `service`, `process` y `tools`.
 
-```bash
-ng generate component component-name
-```
+Para habilitar la recepción en el proyecto de Netlify:
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+1. En **Forms**, habilita **Enable form detection** si está desactivado.
+2. Despliega esta versión y confirma que aparece **b2b-contact** en Forms.
+3. En **Forms → Submission notifications**, configura una notificación al correo deseado si quieres recibir avisos. Guardar una consulta en Forms no configura un aviso por correo automáticamente.
+4. Revisa el envío de una consulta de prueba autorizada: recepción en Forms, notificación y respuesta en pantalla. Las pruebas de este repositorio usan respuestas simuladas y no envían consultas reales.
 
-```bash
-ng generate --help
-```
+Antes de enviar datos, la aplicación comprueba que Netlify haya procesado la definición estática. Si la recepción no está preparada o la solicitud falla, conserva el texto y ofrece el correo directo. En localhost solo valida los campos y explica que es una vista previa; nunca informa que se haya enviado una consulta.
 
-## Building
+La protección de spam usa el campo honeypot de Netlify. No se guardan datos de contacto en el almacenamiento del navegador.
 
-To build the project run:
+Documentación oficial: [configurar Forms](https://docs.netlify.com/manage/forms/setup/) y [notificaciones](https://docs.netlify.com/manage/forms/notifications/).
 
-```bash
-ng build
-```
+## Lighthouse
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+La sección de calidad muestra una **auditoría histórica**, no una medición de esta actualización: escritorio, 28 de abril de 2026, resultados 100 / 95 / 100 / 100. El archivo original está en `public/assets/themaff.netlify.app-20260428T160031.json` y se copia sin cambios al publicar.
 
-## Running unit tests
+El componente anterior `DevScoreComponent` ya no se monta en la portada. La evidencia histórica queda en una sección secundaria. Para publicar una auditoría nueva hay que ejecutar Lighthouse sobre el despliegue correspondiente y actualizar juntos fecha, entorno, valores y reporte.
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+## Publicación
 
-```bash
-ng test
-```
+Trabaja mediante ramas y revisión previa. Conecta el repositorio al proyecto Netlify y verifica que la rama de producción sea la prevista. El comando y directorio de publicación están versionados; habilitar Forms y sus notificaciones se realiza en la configuración del proyecto.
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Esta primera etapa mantiene la página única y la estética original. Las demos se incorporarán en rutas propias en una etapa posterior.

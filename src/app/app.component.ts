@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { HeroComponent } from './features/home/hero.component';
-import { DevScoreComponent } from './shared/components/dev-score/dev-score.component';
+import { QualityComponent } from './features/quality/quality.component';
+import { ProcessComponent } from './features/process/process.component';
 import { CaseStudiesComponent } from './features/case-studies/case-studies.component';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { ContactComponent } from './features/contact/contact.component';
@@ -12,10 +12,10 @@ import { ExperienceComponent } from './features/experience/experience.component'
   selector: 'app-root',
   standalone: true,
   imports: [
-    RouterOutlet,
     HeaderComponent,
     HeroComponent,
-    DevScoreComponent,
+    QualityComponent,
+    ProcessComponent,
     ExperienceComponent,
     CaseStudiesComponent,
     ProjectsComponent,
