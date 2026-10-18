@@ -1,0 +1,12 @@
+[build]
+  command = "npm run build"
+  publish = "dist/me-pro-portfolio/browser"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+[[headers]]
+  for = "/contact-form.html"
+  [headers.values]
+    X-Robots-Tag = "noindex"
+    Cache-Control = "no-cache"
