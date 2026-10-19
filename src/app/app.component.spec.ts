@@ -31,6 +31,7 @@ describe('App routing', () => {
     expect(page.querySelector('h1')?.textContent).toContain('Menos tareas manuales.');
     expect(page.querySelector('a[href="/demos/seguimiento-comercial"]')).toBeTruthy();
     expect(page.querySelector('a[href="/demos/dashboard-comercial"]')).toBeTruthy();
+    expect(page.querySelector('a[href="/demos/formulario-crm-hoja"]')).toBeTruthy();
     expect(page.querySelector('form[name="b2b-contact"]')).toBeTruthy();
   });
 
@@ -81,5 +82,26 @@ describe('App routing', () => {
     expect(router.url).toBe('/demos/seguimiento-comercial');
     expect(page.querySelector('app-commercial-capture')).toBeTruthy();
     expect(page.querySelector('app-commercial-dashboard')).toBeNull();
+  });
+
+  it('opens the integration demo directly with a working skip link and returns to the real contact', async () => {
+    await navigate('/demos/formulario-crm-hoja');
+    const page = fixture.nativeElement as HTMLElement;
+    expect(page.querySelector('app-form-crm-sheet')).toBeTruthy();
+    expect(page.querySelector('app-home-page')).toBeNull();
+    expect(page.querySelector('form[name="b2b-contact"]')).toBeNull();
+    expect(page.querySelectorAll('main').length).toBe(1);
+    (page.querySelector('.skip-link') as HTMLAnchorElement).click();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(router.url).toBe('/demos/formulario-crm-hoja#contenido');
+    expect(page.querySelector('app-form-crm-sheet')).toBeTruthy();
+    const contactLink = page.querySelector('a[href="/#contacto"]') as HTMLAnchorElement;
+    contactLink.click();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(router.url).toBe('/#contacto');
+    expect(page.querySelector('form[name="b2b-contact"]')).toBeTruthy();
+    expect(page.querySelector('app-form-crm-sheet')).toBeNull();
   });
 });
