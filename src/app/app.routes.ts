@@ -17,5 +17,10 @@ export const routes: Routes = [
     title: 'Demo de dashboard comercial | The Maff',
     loadComponent: () => import('./features/demos/commercial-dashboard/commercial-dashboard.component').then(m => m.CommercialDashboardComponent)
   },
+  {
+    path: 'demos/formulario-crm-hoja',
+    title: 'Demo de integración: formulario, CRM y hoja de cálculo | The Maff',
+    loadComponent: () => import('./features/demos/form-crm-sheet/form-crm-sheet.component').then(m => m.FormCrmSheetComponent)
+  },
   { path: '**', redirectTo: '' }
 ];

@@ -42,7 +42,7 @@ El componente anterior `DevScoreComponent` ya no se monta en la portada. La evid
 
 Trabaja mediante ramas y revisión previa. Conecta el repositorio al proyecto Netlify y verifica que la rama de producción sea la prevista. El comando y directorio de publicación están versionados; habilitar Forms y sus notificaciones se realiza en la configuración del proyecto.
 
-La portada conserva su estética original. Las dos demos tienen rutas propias con carga diferida y acceso desde la sección Demos. También hay enlaces para pasar de una demo a la otra.
+La portada conserva su estética original. Las tres demos tienen rutas propias con carga diferida y acceso desde la sección Demos. Cada demo utiliza datos independientes y permite volver a la portada o al contacto real.
 
 ## Demo de captación y seguimiento comercial
 
@@ -81,3 +81,27 @@ Recorrido para probar:
 5. Pasar a la demo de captación o volver al contacto real desde el CTA.
 
 Los gráficos incluyen valores textuales y los datos están disponibles en la tabla. No se añaden librerías de gráficos. El dashboard no hace solicitudes, no envía formularios ni guarda filtros o datos en el navegador; al volver a entrar se recupera la vista inicial.
+
+## Demo de integración: formulario, CRM y hoja
+
+Ruta: `/demos/formulario-crm-hoja`. Es una simulación en memoria, con contactos ficticios y registros iniciales independientes de las otras demos. No se conecta a un CRM ni a Google Sheets, no requiere credenciales y no usa Netlify Forms.
+
+El formulario recoge nombre, correo, empresa opcional y servicio. Normaliza espacios y correo en minúsculas antes de validar. El correo identifica el contacto en el CRM simulado; su ID identifica la fila de la hoja. Al repetir una consulta, se actualizan los datos sin duplicar registros y se conserva el responsable y la etapa comercial existentes. La hoja recibe los datos del contacto guardado en el CRM.
+
+Tres escenarios permiten explorar el flujo:
+
+- **Completo:** valida la consulta, crea o actualiza el contacto y crea o actualiza su fila.
+- **Fallo del CRM:** no cambia ningún destino. El reintento continúa con la consulta original.
+- **Fallo de la hoja:** el CRM conserva el contacto guardado y la hoja queda pendiente. El reintento procesa solo la hoja y reutiliza el mismo ID de contacto.
+
+Los errores son temporales y simulados; el reintento resuelve el paso pendiente. El identificador de ejecución y su consulta original se mantienen, aunque se editen los campos del formulario. Mientras existe un fallo pendiente, se debe reintentar o restablecer la demo antes de iniciar otra ejecución. Reintentar una ejecución ya completada no genera cambios.
+
+Recorrido para probar:
+
+1. Cargar el ejemplo nuevo y simular la integración completa. Revisar los estados, el contacto en el CRM y la fila con el mismo ID.
+2. Volver a enviar el mismo correo y comprobar que se actualizan los datos sin aumentar los registros.
+3. Cargar el ejemplo existente y confirmar que conserva responsable y etapa.
+4. Simular un fallo del CRM y reintentar. Después probar un fallo de la hoja y confirmar que el reintento no duplica el contacto.
+5. Restablecer o recargar para recuperar el escenario inicial.
+
+El historial muestra qué pasó en cada paso, incluidos los errores y reintentos. Nada se envía ni se almacena fuera de la sesión de la demo. El botón de contacto vuelve al formulario real sin copiar datos ficticios.
