@@ -1,6 +1,11 @@
 export const SITE_URL = 'https://themaff.netlify.app';
 export const SOCIAL_IMAGE_URL = `${SITE_URL}/assets/the-maff-social.png`;
 
+/** Match Netlify's directory URLs while keeping Angular route paths unchanged. */
+export function canonicalUrl(path: string): string {
+  return `${SITE_URL}${path === '/' ? '/' : path.replace(/\/+$/, '') + '/'}`;
+}
+
 export interface PageMetadata {
   title: string;
   description: string;

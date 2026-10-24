@@ -4,7 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Title } from '@angular/platform-browser';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
-import { PAGE_METADATA, SITE_URL } from '../seo/page-metadata';
+import { canonicalUrl, PAGE_METADATA, SITE_URL } from '../seo/page-metadata';
 import { GA_MEASUREMENT_ID } from './measurement-id';
 
 export const ANALYTICS_MEASUREMENT_ID = new InjectionToken<string>('GA4 measurement ID', {
@@ -64,7 +64,7 @@ export class AnalyticsService {
   }
 
   private schedulePageView(routerUrl: string): void {
-    const path = routerUrl.split(/[?#]/, 1)[0];
+    const path = routerUrl.split(/[?#]/, 1)[0].replace(/\/+$/, '') || '/';
     const page = PUBLIC_PAGES.find(candidate => candidate.path === path);
     if (!page) {
       this.currentPath = null;
@@ -83,7 +83,7 @@ export class AnalyticsService {
       if (DEMO_NAMES[path]) {
         this.send('event', 'demo_view', { send_to: this.measurementId, demo_name: DEMO_NAMES[path], ...parameters });
       }
-      this.previousPage = `${SITE_URL}${path}`;
+      this.previousPage = canonicalUrl(path);
     });
   }
 
@@ -92,7 +92,7 @@ export class AnalyticsService {
     // Only an authored route title is allowed, even if another script changes document.title.
     const renderedTitle = this.title.getTitle();
     return {
-      page_location: `${SITE_URL}${path}`,
+      page_location: canonicalUrl(path),
       page_title: renderedTitle === page.title ? renderedTitle : page.title,
       page_referrer: this.previousPage || this.safeReferrer(this.document.referrer)
     };
@@ -128,7 +128,8 @@ export class AnalyticsService {
       const url = new URL(referrer);
       if (!['https:', 'http:'].includes(url.protocol)) return '';
       if (url.origin !== SITE_URL) return `${url.origin}/`;
-      return PUBLIC_PAGES.some(page => page.path === url.pathname) ? `${SITE_URL}${url.pathname}` : '';
+      const path = url.pathname.replace(/\/+$/, '') || '/';
+      return PUBLIC_PAGES.some(page => page.path === path) ? canonicalUrl(path) : '';
     } catch {
       return '';
     }

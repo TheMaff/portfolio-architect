@@ -12,7 +12,7 @@ import { RouterLink } from '@angular/router';
         <h1 id="not-found-title" class="mt-5 text-4xl sm:text-5xl font-bold tracking-tight text-white">Esta página no está disponible.</h1>
         <p class="mt-6 text-lg leading-relaxed text-slate-300">El enlace puede haber cambiado. Vuelve al inicio o explora las demos para ver cómo conectar los procesos de tu equipo.</p>
         <div class="mt-9 flex flex-wrap justify-center gap-4">
-          <a routerLink="/" class="rounded-xl bg-brand-accent px-6 py-3 font-semibold text-white hover:bg-blue-600 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-400">Volver al inicio</a>
+          <a routerLink="/" class="rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-400">Volver al inicio</a>
           <a routerLink="/" fragment="demos" class="rounded-xl border border-slate-600 px-6 py-3 font-semibold text-slate-200 hover:border-blue-400 hover:text-white transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-400">Explorar las demos</a>
         </div>
       </div>

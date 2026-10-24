@@ -53,8 +53,9 @@ describe('AnalyticsService', () => {
     analytics.start();
     await navigate('/?email=maria@example.com#nombre-personal');
     await navigate('/?email=otra@example.com#contacto');
-    await navigate('/demos/dashboard-comercial?client=privado#fila-123', PAGE_METADATA.dashboard.title);
+    await navigate('/demos/dashboard-comercial/?client=privado#fila-123', PAGE_METADATA.dashboard.title);
     await navigate('/demos/dashboard-comercial#dashboard-opportunity-detail', PAGE_METADATA.dashboard.title);
+    await navigate('/demos/dashboard-comercial/?client=privado#otro-filtro', PAGE_METADATA.dashboard.title);
 
     expect(appendScript).toHaveBeenCalledTimes(1);
     const script = appendScript.calls.first().args[0] as HTMLScriptElement;
@@ -69,7 +70,7 @@ describe('AnalyticsService', () => {
     });
     expect(events('page_view')[1][2]).toEqual({
       send_to: 'G-TEST123456',
-      page_location: `${SITE_URL}/demos/dashboard-comercial`,
+      page_location: `${SITE_URL}/demos/dashboard-comercial/`,
       page_title: PAGE_METADATA.dashboard.title,
       page_referrer: `${SITE_URL}/`
     });
@@ -116,11 +117,12 @@ describe('AnalyticsService', () => {
 
   it('captures the initial page if the service starts after navigation has completed', async () => {
     fakeRouter.navigated = true;
-    fakeRouter.url = '/demos/formulario-crm-hoja?email=private@example.com';
+    fakeRouter.url = '/demos/formulario-crm-hoja/?email=private@example.com#test';
     title = PAGE_METADATA.integration.title;
     TestBed.inject(AnalyticsService).start();
     await Promise.resolve();
     expect(events('page_view').length).toBe(1);
+    expect(events('page_view')[0][2]).toEqual(jasmine.objectContaining({ page_location: `${SITE_URL}/demos/formulario-crm-hoja/` }));
     expect(events('demo_view')[0][2]).toEqual(jasmine.objectContaining({ demo_name: 'formulario_crm_hoja' }));
     expect(JSON.stringify(commands)).not.toContain('private@example.com');
   });

@@ -2,7 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { Injectable, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { PRIMARY_OUTLET, RouterStateSnapshot, TitleStrategy } from '@angular/router';
-import { PAGE_METADATA, PageMetadata, SITE_URL, SOCIAL_IMAGE_URL } from './page-metadata';
+import { canonicalUrl, PAGE_METADATA, PageMetadata, SITE_URL, SOCIAL_IMAGE_URL } from './page-metadata';
 
 /** Updates both prerendered HTML and metadata after client-side navigation. */
 @Injectable()
@@ -21,7 +21,7 @@ export class SiteTitleStrategy extends TitleStrategy {
       route = child;
     }
 
-    const url = `${SITE_URL}${metadata.path}`;
+    const url = canonicalUrl(metadata.path);
     this.title.setTitle(metadata.title);
     this.meta.updateTag({ name: 'description', content: metadata.description });
     this.meta.updateTag({ name: 'robots', content: metadata.noindex ? 'noindex, follow' : 'index, follow' });
