@@ -6,9 +6,9 @@
   NODE_VERSION = "22"
 
 [[redirects]]
-  from = "/demos/*"
-  to = "/index.html"
-  status = 200
+  from = "/*"
+  to = "/404/index.html"
+  status = 404
 
 [[headers]]
   for = "/contact-form.html"

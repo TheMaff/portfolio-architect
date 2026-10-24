@@ -1,6 +1,7 @@
-import { DOCUMENT } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { afterNextRender, Component, inject, PLATFORM_ID, signal } from '@angular/core';
 import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { AnalyticsService } from '../../shared/analytics/analytics.service';
 
 function requiredText(control: AbstractControl): ValidationErrors | null {
   return typeof control.value === 'string' && control.value.trim().length > 0 ? null : { required: true };
@@ -115,7 +116,10 @@ function requiredText(control: AbstractControl): ValidationErrors | null {
 })
 export class ContactComponent {
   private readonly document = inject(DOCUMENT);
+  private readonly platformId = inject(PLATFORM_ID);
   private readonly formBuilder = inject(FormBuilder);
+  private readonly analytics = inject(AnalyticsService);
+  private readonly browserRendered = signal(false);
   readonly form = this.formBuilder.nonNullable.group({
     name: ['', [requiredText, Validators.maxLength(100)]],
     email: ['', [requiredText, Validators.email, Validators.maxLength(254)]],
@@ -127,7 +131,13 @@ export class ContactComponent {
   });
   readonly status = signal<'idle' | 'sending' | 'success' | 'error' | 'preview'>('idle');
 
+  constructor() {
+    // Keep the first browser render identical to the prerendered HTML.
+    afterNextRender(() => this.browserRendered.set(true));
+  }
+
   get isLocalPreview(): boolean {
+    if (!isPlatformBrowser(this.platformId) || !this.browserRendered()) return false;
     const hostname = this.document.location?.hostname ?? '';
     return !hostname || ['localhost', '127.0.0.1', '0.0.0.0', '[::1]'].includes(hostname) || hostname.endsWith('.localhost');
   }
@@ -185,6 +195,7 @@ export class ContactComponent {
       if (!response.ok) throw new Error('The form endpoint did not accept the submission.');
       this.form.reset();
       this.status.set('success');
+      this.analytics.trackGenerateLead();
     } catch {
       this.status.set('error');
     }

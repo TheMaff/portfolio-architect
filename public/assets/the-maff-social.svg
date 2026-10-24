@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
+  <title id="title">The Maff — automatización e integraciones para empresas</title>
+  <desc id="description">Automatización, CRM, integraciones y dashboards. themaff.netlify.app</desc>
+  <rect width="1200" height="630" fill="#0f172a"/>
+  <path d="M0 629h1200" stroke="#3b82f6" stroke-width="8"/>
+  <circle cx="1120" cy="68" r="280" fill="#3b82f6" opacity=".055"/>
+  <circle cx="1120" cy="68" r="180" fill="none" stroke="#3b82f6" stroke-width="2" opacity=".16"/>
+  <g transform="translate(76 68) scale(1.5)">
+    <rect width="64" height="64" rx="14" fill="#172b4d"/>
+    <path d="M12 48V16h9l11 18 11-18h9v32h-9V32L32 49 21 32v16z" fill="#3b82f6"/>
+  </g>
+  <text x="197" y="131" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="700" letter-spacing="-1">The Maff</text>
+  <text x="76" y="288" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="64" font-weight="700" letter-spacing="-2">Menos tareas manuales.</text>
+  <text x="76" y="365" fill="#3b82f6" font-family="Arial, Helvetica, sans-serif" font-size="64" font-weight="700" letter-spacing="-2">Más negocio conectado.</text>
+  <text x="80" y="443" fill="#cbd5e1" font-family="Arial, Helvetica, sans-serif" font-size="29">Automatización · CRM · Integraciones · Dashboards</text>
+  <text x="80" y="554" fill="#94a3b8" font-family="Arial, Helvetica, sans-serif" font-size="24">themaff.netlify.app</text>
+</svg>

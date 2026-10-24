@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://themaff.netlify.app/sitemap.xml
