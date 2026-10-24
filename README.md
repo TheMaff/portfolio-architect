@@ -32,6 +32,23 @@ La protección de spam usa el campo honeypot de Netlify. No se guardan datos de 
 
 Documentación oficial: [configurar Forms](https://docs.netlify.com/manage/forms/setup/) y [notificaciones](https://docs.netlify.com/manage/forms/notifications/).
 
+## SEO y medición
+
+La compilación genera HTML estático para la portada, las tres demos y `/404`, con hidratación de Angular para conservar las interacciones. Cada página pública tiene título, descripción, canonical, Open Graph y datos estructurados propios. `public/sitemap.xml` contiene las cuatro URLs públicas y `public/robots.txt` anuncia el sitemap. Netlify devuelve un HTTP 404 real para direcciones inexistentes.
+
+El favicon usa la M de The Maff en SVG, ICO y PNG; la imagen social está en `public/assets/the-maff-social.png`.
+
+GA4 usa el flujo **The Maff · Web** (`G-FT16BY0XDX`), propiedad **The Maff · Sitio web** (`560552110`), en la cuenta existente de Marcos. `src/app/shared/analytics/measurement-id.ts` guarda el identificador público, que no es una clave privada. No requiere Netlify Analytics ni un plan de pago.
+
+- La etiqueta solo se carga en `themaff.netlify.app`, nunca en localhost o deploy previews.
+- `page_view` cuenta cambios entre las cuatro páginas públicas; saltos a secciones y cambios de filtros no suman otra visita.
+- `demo_view` identifica qué demo se abrió. `generate_lead` solo se emite después de que Netlify acepte una consulta real.
+- No se envían valores del formulario, parámetros de URL ni fragmentos. La medición mejorada de GA4 está desactivada para evitar eventos de formularios o visitas duplicadas por cambios de historial.
+
+Para verificar la instalación tras publicar, abre el sitio y una demo y comprueba sus eventos en **Analytics → Tiempo real**. Una prueba de conversión necesita un envío real autorizado y debe comprobarse también en Netlify Forms. El código no recupera visitas anteriores a la instalación.
+
+Search Console usa la propiedad de prefijo `https://themaff.netlify.app/` y la etiqueta `google-site-verification` en `src/index.html`. La verificación y el envío de `https://themaff.netlify.app/sitemap.xml` se completan sobre producción, después de publicar; una vista previa no verifica la propiedad de esa URL. Conserva la etiqueta para mantener la verificación.
+
 ## Lighthouse
 
 La sección de calidad muestra una **auditoría histórica**, no una medición de esta actualización: escritorio, 28 de abril de 2026, resultados 100 / 95 / 100 / 100. El archivo original está en `public/assets/themaff.netlify.app-20260428T160031.json` y se copia sin cambios al publicar.

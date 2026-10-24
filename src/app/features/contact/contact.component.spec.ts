@@ -1,10 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { AnalyticsService } from '../../shared/analytics/analytics.service';
 import { ContactComponent } from './contact.component';
 
 describe('ContactComponent', () => {
   let component: ContactComponent;
   let fixture: ComponentFixture<ContactComponent>;
   let fetchSpy: jasmine.Spy;
+  let leadSpy: jasmine.Spy;
 
   const validLead = {
     name: '  María Ejemplo  ',
@@ -19,7 +21,11 @@ describe('ContactComponent', () => {
   const definitionResponse = (html = registeredHtml) => ({ ok: true, text: async () => html } as Response);
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({ imports: [ContactComponent] }).compileComponents();
+    leadSpy = jasmine.createSpy('trackGenerateLead');
+    await TestBed.configureTestingModule({
+      imports: [ContactComponent],
+      providers: [{ provide: AnalyticsService, useValue: { trackGenerateLead: leadSpy } }]
+    }).compileComponents();
     fixture = TestBed.createComponent(ContactComponent);
     component = fixture.componentInstance;
     fetchSpy = spyOn(window, 'fetch');
@@ -32,6 +38,7 @@ describe('ContactComponent', () => {
     fixture.detectChanges();
 
     expect(fetchSpy).not.toHaveBeenCalled();
+    expect(leadSpy).not.toHaveBeenCalled();
     expect(component.form.invalid).toBeTrue();
     expect(fixture.nativeElement.querySelector('#contact-name').getAttribute('aria-invalid')).toBe('true');
     expect(fixture.nativeElement.querySelector('#contact-email-error').textContent).toContain('correo válido');
@@ -44,6 +51,7 @@ describe('ContactComponent', () => {
     await component.submit();
 
     expect(fetchSpy).not.toHaveBeenCalled();
+    expect(leadSpy).not.toHaveBeenCalled();
     expect(component.status()).toBe('preview');
     expect(component.form.controls.name.value).toBe(validLead.name);
   });
@@ -87,11 +95,14 @@ describe('ContactComponent', () => {
     expect(body.has('bot-field')).toBeTrue();
     expect(Array.from(body.keys()).sort()).toEqual(['bot-field', 'company', 'email', 'form-name', 'name', 'process', 'service', 'tools'].sort());
     expect(component.status()).not.toBe('success');
+    expect(leadSpy).not.toHaveBeenCalled();
 
     resolveSubmission({ ok: true } as Response);
     await request;
     expect(component.status()).toBe('success');
     expect(component.form.controls.email.value).toBe('');
+    expect(leadSpy).toHaveBeenCalledTimes(1);
+    expect(leadSpy).toHaveBeenCalledWith();
   });
 
   for (const attribute of ['data-netlify="true"', 'netlify']) {
@@ -104,6 +115,7 @@ describe('ContactComponent', () => {
       expect(fetchSpy).toHaveBeenCalledTimes(1);
       expect(fetchSpy.calls.first().args[1].method).toBe('GET');
       expect(component.status()).toBe('error');
+      expect(leadSpy).not.toHaveBeenCalled();
       expect(component.form.controls.email.value).toBe(validLead.email);
     });
   }
@@ -135,6 +147,7 @@ describe('ContactComponent', () => {
 
     expect(fetchSpy).toHaveBeenCalledTimes(1);
     expect(component.status()).toBe('error');
+    expect(leadSpy).not.toHaveBeenCalled();
     expect(component.form.controls.email.value).toBe(validLead.email);
   });
 
